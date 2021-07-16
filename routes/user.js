@@ -1,18 +1,26 @@
 const router = require("express").Router();
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
+const auth = require("../token/verifyToken");
+const {
+  registerValidation,
+  loginValidation,
+} = require("../validation/validation");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
-var cloudinary = require("cloudinary").v2;
 const saltRounds = 10;
 const upload = multer();
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_CLOUD_API_KEY,
-  api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
-  secure: true,
-});
+// Cloud Upload
+
+// var cloudinary = require("cloudinary").v2;
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+//   api_key: process.env.CLOUDINARY_CLOUD_API_KEY,
+//   api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
+//   secure: true,
+// });
 
 const createAvatar = (name) => {
   const url =
@@ -21,12 +29,11 @@ const createAvatar = (name) => {
 };
 
 router.post("/", upload.none(), async (req, res) => {
-  // const formData = req.body;
-  // console.log("form data", formData);
   const { userName, email, password, phone } = req.body;
-  if (!userName || !email || !password || !phone) {
+  const { error } = registerValidation(req.body);
+  if (error) {
     return res.status(422).send({
-      error: "All fields are required.",
+      error: error.details[0].message,
     });
   } else {
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
@@ -51,13 +58,45 @@ router.post("/", upload.none(), async (req, res) => {
   }
 });
 
-router.get("/all", async (req, res) => {
+router.get("/all", auth, async (req, res) => {
   const users = await User.find();
+  console.log(JSON.stringify(req.user));
   res.json(users);
 });
 
-module.exports = router;
+router.post("/login", upload.none(), async (req, res) => {
+  const { email, password } = req.body;
+  console.log("email", email);
+  const { error } = loginValidation(req.body);
+  const userCheck = await User.findOne({ email: email });
+  if (error) {
+    return res.status(422).send({
+      error: error.details[0].message,
+    });
+  } else if (userCheck) {
+    var check = bcrypt.compareSync(password, userCheck.password);
+    if (check) {
+      const token = jwt.sign(
+        {
+          uuid: userCheck.uuid,
+        },
+        process.env.TOKEN_SECRET
+      );
+      res.header("auth-token", token);
+      res.send({
+        token: token,
+        message: "User logged in successfully!",
+      });
+    } else {
+      res.status(401).send({
+        error: "Wrong Password",
+      });
+    }
+  } else {
+    return res.status(422).send({
+      error: "User not found!",
+    });
+  }
+});
 
-// For Login
-// var check = bcrypt.compareSync("alike", hash);
-// "alike" is user password & hash is hashed value.
+module.exports = router;
