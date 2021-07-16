@@ -1,0 +1,27 @@
+{
+  "name": "blog-rest-api",
+  "version": "1.0.0",
+  "description": "Blog Rest API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "serve": "node server.js"
+  },
+  "repository": "https://github.com/vigneshshettyin/Blog-Rest-API",
+  "author": "Vignesh Shetty",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cloudinary": "^1.26.2",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.2",
+    "multer": "^1.4.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.11"
+  }
+}
