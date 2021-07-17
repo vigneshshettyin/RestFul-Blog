@@ -1,0 +1,30 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.blog-card {
+  margin: 10px;
+}
+
+.card-para,
+.text-date,
+.title {
+  font-family: "Concert One", cursive;
+}
+
+.authorName {
+  font-family: "Cookie", cursive;
+  font-size: 25px;
+}
+
+.blog-card-img {
+  height: 250px;
+  width: 250px;
+}
+.userImage {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}

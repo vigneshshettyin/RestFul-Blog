@@ -1,21 +1,27 @@
 const router = require("express").Router();
 const Blog = require("../models/blog");
+const User = require("../models/user");
 const auth = require("../token/verifyToken");
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
 const upload = multer();
 
 router.post("/", auth, upload.none(), async (req, res) => {
-  const { title, content, displayPicture, userUUID } = req.body;
-  if (!title || !content || !displayPicture) {
+  const { title, content, displayPicture, category } = req.body;
+  if (!title || !content || !displayPicture || !category) {
     return res.status(422).send({
       error: "All fields are required.",
     });
   } else {
+    const user = await User.findOne({ uuid: req.user.uuid });
+    console.log(user);
     const blog = new Blog({
       uuid: uuidv4(),
       title: title,
       content: content,
+      author: user.userName,
+      authorImage: user.displayURL,
+      category: category,
       displayPicture: displayPicture,
       userUUID: req.user.uuid,
     });

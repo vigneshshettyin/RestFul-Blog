@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Concert+One&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Cookie&display=swap");
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.search-card {
+  margin: 10px;
+}

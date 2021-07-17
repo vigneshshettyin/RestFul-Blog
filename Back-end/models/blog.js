@@ -8,6 +8,9 @@ const blogSchema = new Schema(
     content: { type: String, required: true },
     displayPicture: { type: String, required: true },
     userUUID: { type: String, required: true },
+    author: { type: String, required: true },
+    authorImage: { type: String, required: true },
+    category: { type: String, required: true },
   },
   { timestamps: true }
 );
