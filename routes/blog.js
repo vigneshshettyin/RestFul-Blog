@@ -55,4 +55,44 @@ router.get("/user/:userUUID", async (req, res) => {
   res.json(blog);
 });
 
+router.put("/update/:blogUUID", auth, upload.none(), async (req, res) => {
+  const blogUUID = req.params.blogUUID;
+  const { title, content, displayPicture } = req.body;
+  if (!title || !content || !displayPicture) {
+    return res.status(422).send({
+      error: "All fields are required.",
+    });
+  }
+
+  const blogCheck = await Blog.findOne({
+    uuid: blogUUID,
+    userUUID: req.user.uuid,
+  });
+
+  if (blogCheck) {
+    const deleteBlog = await Blog.deleteOne({
+      uuid: blogUUID,
+      userUUID: req.user.uuid,
+    });
+
+    const blog = new Blog({
+      uuid: blogUUID,
+      title: title,
+      content: content,
+      displayPicture: displayPicture,
+      userUUID: req.user.uuid,
+    });
+    const response = await blog.save();
+
+    res.json({
+      message: "Blog updated successfully!",
+    });
+  } else {
+    return res.status(401).send({
+      error:
+        "You are not authorized to update this blog or blog doesn't exist!",
+    });
+  }
+});
+
 module.exports = router;
