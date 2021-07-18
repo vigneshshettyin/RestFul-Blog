@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
 import { components } from "../../components/blog/detail/viewBlog";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 const ReactMarkdown = require("react-markdown");
 const gfm = require("remark-gfm");
 
 const access_token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiM2FlODQwNTMtMGZjYi00NzJhLWJhZWUtYmZmYTQyYzM3YzkzIiwiaWF0IjoxNjI2NjA5NTgwfQ.WnPvOLdHOMBE7g9_ze9SO6wFebQjDPdn2lWpD16Dz-k";
 
-const CreateBlog = () => {
+const UpdateBlog = () => {
   const [data, setData] = useState({
     title: "",
     content: "",
@@ -19,6 +19,20 @@ const CreateBlog = () => {
   });
 
   const history = useHistory();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/blog/${id}`).then((response) => {
+      setData({
+        title: response.data.title,
+        content: response.data.content,
+        markdown: response.data.markdown,
+        category: response.data.category,
+        displayPicture: response.data.displayPicture,
+      });
+    });
+  }, [id]);
 
   const OnChangeValue = (e) => {
     const { value, name } = e.target;
@@ -32,7 +46,7 @@ const CreateBlog = () => {
 
   const postDataToServer = (data) => {
     axios
-      .post("http://localhost:5000/api/blog/", data, {
+      .put(`http://localhost:5000/api/blog/update/${id}`, data, {
         headers: {
           Authorization: access_token,
         },
@@ -41,7 +55,7 @@ const CreateBlog = () => {
         if (response.status === 200) {
           swal({
             title: "Success!",
-            text: "Blog has been updated/created successfully!",
+            text: "Blog has been updated successfully!",
             icon: "success",
             button: "Okay!",
           });
@@ -157,4 +171,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default UpdateBlog;

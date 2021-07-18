@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "./components/Header";
-import CreateBlog from "./components/createBlog";
 import swal from "sweetalert";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -71,7 +70,7 @@ const Panel = () => {
   }
 
   function updateBlog(uuid) {
-    alert(uuid);
+    history.push(`/update-blog/${uuid}`);
   }
 
   function createBlogPost() {
