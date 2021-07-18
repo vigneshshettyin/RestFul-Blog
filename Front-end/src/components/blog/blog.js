@@ -2,10 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import "./blog.css";
-const ReactMarkdown = require("react-markdown");
-const gfm = require("remark-gfm");
-
-const markdown = `### Hello`;
 
 const Button = styled(Link)`
 font-family: 'Pacifico', cursive;
@@ -51,7 +47,6 @@ const Blog = (props) => {
               style={{ textAlign: "left" }}
               class="card-para card-text mb-auto justify-content-lg-start"
             >
-              {/* <ReactMarkdown remarkPlugins={[gfm]} children={markdown} /> */}
               {props.content} ....
             </p>
             <Button className="text-decoration-none" to={`/blog/${props.uuid}`}>

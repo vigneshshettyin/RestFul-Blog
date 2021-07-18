@@ -7,8 +7,8 @@ const multer = require("multer");
 const upload = multer();
 
 router.post("/", auth, upload.none(), async (req, res) => {
-  const { title, content, displayPicture, category } = req.body;
-  if (!title || !content || !displayPicture || !category) {
+  const { title, content, displayPicture, category, markdown } = req.body;
+  if (!title || !content || !displayPicture || !category || !markdown) {
     return res.status(422).send({
       error: "All fields are required.",
     });
@@ -19,6 +19,7 @@ router.post("/", auth, upload.none(), async (req, res) => {
       uuid: uuidv4(),
       title: title,
       content: content,
+      markdown: markdown,
       author: user.userName,
       authorImage: user.displayURL,
       category: category,
@@ -63,8 +64,8 @@ router.get("/user/:userUUID", async (req, res) => {
 
 router.put("/update/:blogUUID", auth, upload.none(), async (req, res) => {
   const blogUUID = req.params.blogUUID;
-  const { title, content, displayPicture } = req.body;
-  if (!title || !content || !displayPicture) {
+  const { title, content, displayPicture, markdown, category } = req.body;
+  if (!title || !content || !displayPicture || !markdown || !category) {
     return res.status(422).send({
       error: "All fields are required.",
     });
@@ -84,7 +85,11 @@ router.put("/update/:blogUUID", auth, upload.none(), async (req, res) => {
     const blog = new Blog({
       uuid: blogUUID,
       title: title,
+      author: blogCheck.author,
+      authorImage: blogCheck.authorImage,
       content: content,
+      markdown: markdown,
+      category: category,
       displayPicture: displayPicture,
       userUUID: req.user.uuid,
     });
