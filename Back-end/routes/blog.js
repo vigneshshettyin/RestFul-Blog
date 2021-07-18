@@ -56,9 +56,8 @@ router.delete("/:blogUUID", auth, async (req, res) => {
   }
 });
 
-router.get("/user/:userUUID", async (req, res) => {
-  const userUUID = req.params.userUUID;
-  const blog = await Blog.find({ userUUID: userUUID });
+router.get("/user/all", auth, async (req, res) => {
+  const blog = await Blog.find({ userUUID: req.user.uuid });
   res.json(blog);
 });
 
