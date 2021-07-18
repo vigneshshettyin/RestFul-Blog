@@ -8,10 +8,14 @@ body {
   margin: 10px;
 }
 
-.card-para,
-.text-date,
-.title {
+.title,
+.text-date {
   font-family: "Concert One", cursive;
+}
+
+.card-para {
+  font-weight: bold;
+  font-family: "Nunito Sans", sans-serif;
 }
 
 .authorName {

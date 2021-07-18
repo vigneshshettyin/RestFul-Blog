@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Lottie from "react-lottie";
+import { defaultOptions } from "../../../Home";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 const ReactMarkdown = require("react-markdown");
@@ -84,11 +86,9 @@ const ViewBlog = () => {
       ) : (
         <center>
           <div>
-            <img
-              style={{ width: "500px", height: "500px" }}
-              src="https://res.cloudinary.com/vigneshshettyin/image/upload/v1626583983/aco00q0e6jtk4joxnfdf.gif"
-              alt=""
-            />
+            <div className="div-center">
+              <Lottie options={defaultOptions} height={200} width={200} />
+            </div>
           </div>
         </center>
       )}
