@@ -1,13 +1,23 @@
 import React from "react";
 import Header from "./components/Header";
+import CreateBlog from "./components/createBlog";
+import swal from "sweetalert";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import IconButton from "@material-ui/core/IconButton";
 import axios from "axios";
+import Edit from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const access_token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiM2FlODQwNTMtMGZjYi00NzJhLWJhZWUtYmZmYTQyYzM3YzkzIiwiaWF0IjoxNjI2NjA5NTgwfQ.WnPvOLdHOMBE7g9_ze9SO6wFebQjDPdn2lWpD16Dz-k";
 
 const Panel = () => {
   const [posts, setPosts] = React.useState();
+
+  const history = useHistory();
 
   useEffect(() => {
     fetchData();
@@ -29,16 +39,53 @@ const Panel = () => {
   };
 
   function deleteBlog(uuid) {
-    alert(uuid);
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this blog!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        swal("Success! Your blog has been deleted! 😒", {
+          icon: "success",
+        });
+        axios
+          .delete(`http://localhost:5000/api/blog/${uuid}`, {
+            headers: {
+              Authorization: access_token,
+            },
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              fetchData();
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        swal("Your blog is safe! 😸");
+      }
+    });
   }
 
   function updateBlog(uuid) {
     alert(uuid);
   }
 
+  function createBlogPost() {
+    history.push(`/create-blog`);
+  }
+
   return (
     <>
       <Header />
+      <div className="floating-button d-none d-sm-block">
+        <Fab onClick={createBlogPost} color="primary" aria-label="add">
+          <AddIcon />
+        </Fab>
+      </div>
       <div className="col-md-8 container-fluid p-2">
         {posts ? (
           <table className="table table-bordered">
@@ -57,22 +104,22 @@ const Panel = () => {
                     <th scope="row">{index + 1}</th>
                     <td>{post.title}</td>
                     <td>
-                      <button
-                        type="button"
+                      <IconButton
+                        aria-label="Edit"
                         onClick={() => updateBlog(post.uuid)}
-                        className="btn btn-warning"
+                        color="primary"
                       >
-                        Edit
-                      </button>
+                        <Edit />
+                      </IconButton>
                     </td>
                     <td>
-                      <button
-                        type="button"
+                      <IconButton
+                        aria-label="Delete"
                         onClick={() => deleteBlog(post.uuid)}
-                        className="btn btn-danger"
+                        color="secondary"
                       >
-                        Delete
-                      </button>
+                        <DeleteIcon />
+                      </IconButton>
                     </td>
                   </tr>
                 );

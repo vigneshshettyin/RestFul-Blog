@@ -97,3 +97,5 @@ const ViewBlog = () => {
 };
 
 export default ViewBlog;
+
+export { components };

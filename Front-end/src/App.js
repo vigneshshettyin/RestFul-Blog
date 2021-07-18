@@ -5,6 +5,7 @@ import ViewBlog from "../src/components/blog/detail/viewBlog";
 import Panel from "../src/auth/panel";
 import Login from "../src/auth/login/login";
 import Register from "../src/auth/register/register";
+import CreateBlog from "./auth/components/createBlog";
 const App = () => {
   return (
     <>
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/dashboard" component={Panel} exact />
         <Route path="/login" component={Login} exact />
         <Route path="/register" component={Register} exact />
+        <Route path="/create-blog" component={CreateBlog} exact />
         <Redirect to="/" />
       </Switch>
     </>

@@ -36,3 +36,17 @@ body {
 .dashboard-title {
   font-family: "Rock Salt", cursive;
 }
+
+th,
+td,
+tr {
+  text-align: center;
+}
+
+.floating-button {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+}
