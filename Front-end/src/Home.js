@@ -16,11 +16,16 @@ const Title = styled.button`
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const fetchPosts = async () => {
     axios.get("http://localhost:5000/api/blog/all").then((response) => {
       setPosts(response.data);
     });
+  };
+
+  const searchTitle = (e) => {
+    setSearchValue(e.target.value);
   };
 
   useEffect(() => {
@@ -35,6 +40,7 @@ const Home = () => {
         <div className="col-md-8 search-card">
           <input
             className="form-control"
+            onChange={searchTitle}
             list="datalistOptions"
             id="exampleDataList"
             placeholder="Type to search..."
@@ -45,20 +51,22 @@ const Home = () => {
             })}
           </datalist>
         </div>
-        {posts.map((post, index) => {
-          return (
+        {posts
+          .filter((post) =>
+            post.title.toLowerCase().includes(searchValue.toLowerCase())
+          )
+          .map((filteredPost, index) => (
             <Blog
               key={index}
-              uuid={post.uuid}
-              title={post.title}
-              author={post.author}
-              date={post.updatedAt}
-              image={post.displayPicture}
-              authorImage={post.authorImage}
-              content={post.content}
+              uuid={filteredPost.uuid}
+              title={filteredPost.title}
+              author={filteredPost.author}
+              date={filteredPost.updatedAt}
+              image={filteredPost.displayPicture}
+              authorImage={filteredPost.authorImage}
+              content={filteredPost.content}
             />
-          );
-        })}
+          ))}
       </center>
     </>
   );
