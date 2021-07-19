@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import swal from "sweetalert";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,9 +20,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
+      <a color="inherit" target="_blank" href="https://vigneshcodes.in/">
+        Vignesh Shetty
+      </a>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -48,6 +50,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    firstName: "",
+    phone: "",
+  });
+
+  const OnChangeValue = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
   const classes = useStyles();
 
   const history = useHistory();
@@ -56,6 +75,37 @@ export default function SignUp() {
     if (AUTH()) {
       history.push("/dashboard");
     }
+  };
+
+  function registerUser(data) {
+    axios
+      .post("http://localhost:5000/api/user", data)
+      .then((response) => {
+        if (response.status === 200) {
+          swal({
+            title: "Success!",
+            text: "Registration Successful!",
+            icon: "success",
+            button: "Login!",
+          }).then(() => {
+            history.push("/login");
+          });
+        }
+      })
+      .catch((error) => {
+        swal("Error!", error.response.data.error, "error");
+      });
+  }
+
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    const { email, password, firstName, phone } = data;
+    let formdata = new FormData();
+    formdata.append("email", email);
+    formdata.append("password", password);
+    formdata.append("userName", firstName);
+    formdata.append("phone", phone);
+    registerUser(formdata);
   };
 
   return (
@@ -69,17 +119,19 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={onFormSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
                 name="firstName"
+                value={data.firstName}
+                onChange={OnChangeValue}
                 variant="outlined"
                 required
                 fullWidth
                 id="firstName"
-                label="First Name"
+                label="Name"
                 autoFocus
               />
             </Grid>
@@ -89,8 +141,10 @@ export default function SignUp() {
                 required
                 fullWidth
                 id="lastName"
-                label="Last Name"
-                name="lastName"
+                label="Phone"
+                name="phone"
+                value={data.phone}
+                onChange={OnChangeValue}
                 autoComplete="lname"
               />
             </Grid>
@@ -102,6 +156,8 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
+                value={data.email}
+                onChange={OnChangeValue}
                 autoComplete="email"
               />
             </Grid>
@@ -111,6 +167,8 @@ export default function SignUp() {
                 required
                 fullWidth
                 name="password"
+                value={data.password}
+                onChange={OnChangeValue}
                 label="Password"
                 type="password"
                 id="password"
@@ -141,6 +199,7 @@ export default function SignUp() {
             </Grid>
           </Grid>
         </form>
+        {JSON.stringify(data)}
       </div>
       <Box mt={5}>
         <Copyright />

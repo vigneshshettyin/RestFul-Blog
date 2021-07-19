@@ -64,6 +64,7 @@ export default function SignIn() {
       };
     });
   };
+
   const history = useHistory();
 
   const CheckForLogin = () => {
@@ -80,9 +81,9 @@ export default function SignIn() {
           localStorage.setItem("token", response.data.token);
           swal({
             title: "Success!",
-            text: "Login Successfull!",
+            text: "Login Successful!",
             icon: "success",
-            button: "Okay!",
+            button: "Dashboard!",
           }).then(() => {
             history.push("/dashboard");
           });
