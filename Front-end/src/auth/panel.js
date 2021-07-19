@@ -13,19 +13,13 @@ import { useHistory } from "react-router-dom";
 const Panel = () => {
   const [posts, setPosts] = React.useState();
 
-  const access_token = localStorage.getItem("token");
-
   const history = useHistory();
-
-  useEffect(() => {
-    fetchData();
-  }, [access_token]);
 
   const fetchData = () => {
     axios
       .get("http://localhost:5000/api/blog/user/all", {
         headers: {
-          Authorization: access_token,
+          Authorization: localStorage.getItem("token"),
         },
       })
       .then((res) => {
@@ -35,6 +29,10 @@ const Panel = () => {
         setPosts(error);
       });
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   function deleteBlog(uuid) {
     swal({
@@ -51,7 +49,7 @@ const Panel = () => {
         axios
           .delete(`http://localhost:5000/api/blog/${uuid}`, {
             headers: {
-              Authorization: access_token,
+              Authorization: localStorage.getItem("token"),
             },
           })
           .then((res) => {

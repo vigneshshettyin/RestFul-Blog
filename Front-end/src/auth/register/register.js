@@ -20,7 +20,12 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <a color="inherit" target="_blank" href="https://vigneshcodes.in/">
+      <a
+        color="inherit"
+        rel="noreferrer"
+        target="_blank"
+        href="https://vigneshcodes.in/"
+      >
         Vignesh Shetty
       </a>{" "}
       {new Date().getFullYear()}
