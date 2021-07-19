@@ -36,10 +36,13 @@ const ViewBlog = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState({});
   const [flag, setFlag] = useState(false);
+
   useEffect(() => {
     axios.get(`http://localhost:5000/api/blog/${id}`).then((response) => {
-      setBlog(response.data);
-      setFlag(true);
+      if (response.status === 200) {
+        setBlog(response.data);
+        setFlag(true);
+      }
     });
   }, [id]);
   return (

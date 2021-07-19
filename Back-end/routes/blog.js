@@ -39,7 +39,13 @@ router.get("/all", async (req, res) => {
 router.get("/:blogUUID", async (req, res) => {
   const blogUUID = req.params.blogUUID;
   const blog = await Blog.findOne({ uuid: blogUUID });
-  res.json(blog);
+  if (blog) {
+    res.json(blog);
+  } else {
+    return res.status(404).send({
+      error: "Blog not found.",
+    });
+  }
 });
 
 router.delete("/:blogUUID", auth, async (req, res) => {
