@@ -6,8 +6,6 @@ import { useHistory } from "react-router-dom";
 const ReactMarkdown = require("react-markdown");
 const gfm = require("remark-gfm");
 
-const access_token = localStorage.getItem("token");
-
 const CreateBlog = () => {
   const [data, setData] = useState({
     title: "",
@@ -18,6 +16,8 @@ const CreateBlog = () => {
   });
 
   const history = useHistory();
+
+  const access_token = localStorage.getItem("token");
 
   const OnChangeValue = (e) => {
     const { value, name } = e.target;

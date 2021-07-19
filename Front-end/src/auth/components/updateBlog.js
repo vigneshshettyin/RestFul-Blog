@@ -6,8 +6,6 @@ import { useHistory, useParams } from "react-router-dom";
 const ReactMarkdown = require("react-markdown");
 const gfm = require("remark-gfm");
 
-const access_token = localStorage.getItem("token");
-
 const UpdateBlog = () => {
   const [data, setData] = useState({
     title: "",
@@ -20,6 +18,8 @@ const UpdateBlog = () => {
   const history = useHistory();
 
   const { id } = useParams();
+
+  const access_token = localStorage.getItem("token");
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/blog/${id}`).then((response) => {

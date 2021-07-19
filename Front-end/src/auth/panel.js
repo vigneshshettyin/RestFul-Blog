@@ -10,16 +10,16 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-const access_token = localStorage.getItem("token");
-
 const Panel = () => {
   const [posts, setPosts] = React.useState();
+
+  const access_token = localStorage.getItem("token");
 
   const history = useHistory();
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [access_token]);
 
   const fetchData = () => {
     axios
