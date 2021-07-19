@@ -3,6 +3,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import { components } from "../../components/blog/detail/viewBlog";
 import { useHistory } from "react-router-dom";
+import { SERVER_URL } from "../../ServerLink";
 const ReactMarkdown = require("react-markdown");
 const gfm = require("remark-gfm");
 
@@ -31,7 +32,7 @@ const CreateBlog = () => {
 
   const postDataToServer = (data) => {
     axios
-      .post("http://localhost:5000/api/blog/", data, {
+      .post(`${SERVER_URL}/api/blog/`, data, {
         headers: {
           Authorization: access_token,
         },

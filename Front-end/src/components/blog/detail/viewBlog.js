@@ -3,6 +3,7 @@ import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import { defaultOptions } from "../../../Home";
+import { SERVER_URL } from "../../../ServerLink";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 const ReactMarkdown = require("react-markdown");
@@ -41,7 +42,7 @@ const ViewBlog = () => {
 
   const fetchBlog = async () => {
     axios
-      .get(`http://localhost:5000/api/blog/${id}`)
+      .get(`${SERVER_URL}/api/blog/${id}`)
       .then((response) => {
         if (response.status === 200) {
           setBlog(response.data);

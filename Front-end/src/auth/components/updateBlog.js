@@ -3,6 +3,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import { components } from "../../components/blog/detail/viewBlog";
 import { useHistory, useParams } from "react-router-dom";
+import { SERVER_URL } from "../../ServerLink";
 const ReactMarkdown = require("react-markdown");
 const gfm = require("remark-gfm");
 
@@ -23,7 +24,7 @@ const UpdateBlog = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/blog/get-update-post/${id}`, {
+      .get(`${SERVER_URL}/api/blog/get-update-post/${id}`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -54,7 +55,7 @@ const UpdateBlog = () => {
 
   const postDataToServer = (data) => {
     axios
-      .put(`http://localhost:5000/api/blog/update/${id}`, data, {
+      .put(`${SERVER_URL}/api/blog/update/${id}`, data, {
         headers: {
           Authorization: access_token,
         },

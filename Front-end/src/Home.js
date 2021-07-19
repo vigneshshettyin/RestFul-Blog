@@ -4,6 +4,7 @@ import Fab from "@material-ui/core/Fab";
 import VpnKeyOutlinedIcon from "@material-ui/icons/VpnKeyOutlined";
 import styled from "styled-components";
 import axios from "axios";
+import { SERVER_URL } from "../src/ServerLink";
 import Lottie from "react-lottie";
 import animationData from "../src/animation/loading";
 import "./index.css";
@@ -40,7 +41,7 @@ const Home = () => {
   };
 
   const fetchPosts = async () => {
-    axios.get("http://localhost:5000/api/blog/all").then((response) => {
+    axios.get(`${SERVER_URL}/api/blog/all`).then((response) => {
       setPosts(response.data);
       setLoading(false);
     });

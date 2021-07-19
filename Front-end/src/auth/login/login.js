@@ -15,14 +15,15 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { AUTH } from "../../token/auth";
+import { SERVER_URL } from "../../ServerLink";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
+      <a color="inherit" href="https://vigneshcodes.in/">
+        Vignesh Shetty
+      </a>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -75,7 +76,7 @@ export default function SignIn() {
 
   function loginNow(data) {
     axios
-      .post("http://localhost:5000/api/user/login", data)
+      .post(`${SERVER_URL}/api/user/login`, data)
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);

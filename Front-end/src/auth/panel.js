@@ -9,6 +9,7 @@ import Edit from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { SERVER_URL } from "../ServerLink";
 
 const Panel = () => {
   const [posts, setPosts] = React.useState();
@@ -17,7 +18,7 @@ const Panel = () => {
 
   const fetchData = () => {
     axios
-      .get("http://localhost:5000/api/blog/user/all", {
+      .get(`${SERVER_URL}/api/blog/user/all`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
