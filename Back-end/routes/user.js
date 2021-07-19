@@ -59,9 +59,16 @@ router.post("/", upload.none(), async (req, res) => {
 });
 
 router.get("/all", auth, async (req, res) => {
-  const users = await User.find();
-  console.log(JSON.stringify(req.user));
-  res.json(users);
+  // const users = await User.find();
+  // console.log(JSON.stringify(req.user));
+  const user = await User.findOne({
+    uuid: req.user.uuid,
+  });
+  res.json({
+    notice:
+      "This was only created for testing purpose, we respect our user privacy! 😆😆",
+    yourData: user,
+  });
 });
 
 router.post("/login", upload.none(), async (req, res) => {
