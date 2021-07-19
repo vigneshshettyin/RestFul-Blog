@@ -1,4 +1,6 @@
 import React from "react";
+import axios from "axios";
+import swal from "sweetalert";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -48,6 +50,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const [data, setData] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  const OnChangeValue = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
   const history = useHistory();
 
   const CheckForLogin = () => {
@@ -55,6 +71,36 @@ export default function SignIn() {
       history.push("/dashboard");
     }
   };
+
+  function loginNow(data) {
+    axios
+      .post("http://localhost:5000/api/user/login", data)
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.setItem("token", response.data.token);
+          swal({
+            title: "Success!",
+            text: "Login Successfull!",
+            icon: "success",
+            button: "Okay!",
+          }).then(() => {
+            history.push("/dashboard");
+          });
+        }
+      })
+      .catch((error) => {
+        swal("Error!", error.response.data.error, "error");
+      });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const { email, password } = data;
+    let formdata = new FormData();
+    formdata.append("email", email);
+    formdata.append("password", password);
+    loginNow(formdata);
+  }
 
   const classes = useStyles();
 
@@ -69,13 +115,15 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
             required
+            onChange={OnChangeValue}
             fullWidth
             id="email"
+            value={data.email}
             label="Email Address"
             name="email"
             autoComplete="email"
@@ -87,6 +135,8 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
+            onChange={OnChangeValue}
+            value={data.password}
             label="Password"
             type="password"
             id="password"
@@ -118,6 +168,7 @@ export default function SignIn() {
             </Grid>
           </Grid>
         </form>
+        {JSON.stringify(data)}
       </div>
       <Box mt={8}>
         <Copyright />

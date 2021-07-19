@@ -10,8 +10,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-const access_token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiM2FlODQwNTMtMGZjYi00NzJhLWJhZWUtYmZmYTQyYzM3YzkzIiwiaWF0IjoxNjI2NjA5NTgwfQ.WnPvOLdHOMBE7g9_ze9SO6wFebQjDPdn2lWpD16Dz-k";
+const access_token = localStorage.getItem("token");
 
 const Panel = () => {
   const [posts, setPosts] = React.useState();
