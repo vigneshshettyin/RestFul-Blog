@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Blog from "../src/components/blog/blog";
+import Fab from "@material-ui/core/Fab";
+import VpnKeyOutlinedIcon from "@material-ui/icons/VpnKeyOutlined";
 import styled from "styled-components";
 import axios from "axios";
 import Lottie from "react-lottie";
 import animationData from "../src/animation/loading";
 import "./index.css";
+import { useHistory } from "react-router-dom";
 
 const Title = styled.button`
   font-family: "Rock Salt", cursive;
@@ -30,6 +33,12 @@ const Home = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const history = useHistory();
+
+  const takeMeToLogin = () => {
+    history.push("/login");
+  };
+
   const fetchPosts = async () => {
     axios.get("http://localhost:5000/api/blog/all").then((response) => {
       setPosts(response.data);
@@ -49,6 +58,12 @@ const Home = () => {
     <>
       <center>
         <Title>Featured Blogger</Title>
+
+        <div className="floating-button">
+          <Fab onClick={takeMeToLogin} color="secondary" aria-label="edit">
+            <VpnKeyOutlinedIcon />
+          </Fab>
+        </div>
 
         {loading ? (
           <div className=".div-center">

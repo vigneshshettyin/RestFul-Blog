@@ -22,15 +22,24 @@ const UpdateBlog = () => {
   const access_token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/blog/${id}`).then((response) => {
-      setData({
-        title: response.data.title,
-        content: response.data.content,
-        markdown: response.data.markdown,
-        category: response.data.category,
-        displayPicture: response.data.displayPicture,
+    axios
+      .get(`http://localhost:5000/api/blog/get-update-post/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        setData({
+          title: response.data.title,
+          content: response.data.content,
+          markdown: response.data.markdown,
+          category: response.data.category,
+          displayPicture: response.data.displayPicture,
+        });
+      })
+      .catch((error) => {
+        history.push("/dashboard");
       });
-    });
   }, [id]);
 
   const OnChangeValue = (e) => {

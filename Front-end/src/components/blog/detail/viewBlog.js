@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import { defaultOptions } from "../../../Home";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -37,13 +37,24 @@ const ViewBlog = () => {
   const [blog, setBlog] = useState({});
   const [flag, setFlag] = useState(false);
 
+  const history = useHistory();
+
+  const fetchBlog = async () => {
+    axios
+      .get(`http://localhost:5000/api/blog/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setBlog(response.data);
+          setFlag(true);
+        }
+      })
+      .catch((error) => {
+        history.push("/");
+      });
+  };
+
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/blog/${id}`).then((response) => {
-      if (response.status === 200) {
-        setBlog(response.data);
-        setFlag(true);
-      }
-    });
+    fetchBlog();
   }, [id]);
   return (
     <>

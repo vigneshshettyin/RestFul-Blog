@@ -42,7 +42,19 @@ router.get("/:blogUUID", async (req, res) => {
   if (blog) {
     res.json(blog);
   } else {
-    return res.status(404).send({
+    return res.status(422).send({
+      error: "Blog not found.",
+    });
+  }
+});
+
+router.get("/get-update-post/:blogUUID", auth, async (req, res) => {
+  const blogUUID = req.params.blogUUID;
+  const blog = await Blog.findOne({ uuid: blogUUID, userUUID: req.user.uuid });
+  if (blog) {
+    res.json(blog);
+  } else {
+    return res.status(422).send({
       error: "Blog not found.",
     });
   }
