@@ -1,3 +1,8 @@
 export const AUTH = () => {
-  return false;
+  //   localStorage.setItem("token", "helloji");
+  if (localStorage.getItem("token")) {
+    return true;
+  } else {
+    return false;
+  }
 };

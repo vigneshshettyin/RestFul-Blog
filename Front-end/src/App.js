@@ -8,6 +8,7 @@ import Login from "../src/auth/login/login";
 import Register from "../src/auth/register/register";
 import CreateBlog from "./auth/components/createBlog";
 import PrivateRoutes from "../src/token/privateRoute";
+import Logout from "../src/token/logout";
 const App = () => {
   return (
     <>
@@ -19,6 +20,7 @@ const App = () => {
         <PrivateRoutes path="/update-blog/:id" component={UpdateBlog} exact />
         <PrivateRoutes path="/dashboard" component={Panel} exact />
         <PrivateRoutes path="/create-blog" component={CreateBlog} exact />
+        <PrivateRoutes path="/logout" component={Logout} exact />
         <Redirect to="/" />
       </Switch>
     </>
