@@ -4,8 +4,51 @@ import swal from "sweetalert";
 import { components } from "../../components/blog/detail/viewBlog";
 import { useHistory, useParams } from "react-router-dom";
 import { SERVER_URL } from "../../ServerLink";
+// Material Tabs
+import PropTypes from "prop-types";
+import SwipeableViews from "react-swipeable-views";
+import { useTheme } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+// Material Tabs
 const ReactMarkdown = require("react-markdown");
 const gfm = require("remark-gfm");
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `full-width-tab-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
+  };
+}
 
 const UpdateBlog = () => {
   const [data, setData] = useState({
@@ -15,6 +58,20 @@ const UpdateBlog = () => {
     category: "React",
     displayPicture: "",
   });
+
+  //Material Tab
+  const theme = useTheme();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = (index) => {
+    setValue(index);
+  };
+
+  //Material Tab
 
   const history = useHistory();
 
@@ -41,7 +98,7 @@ const UpdateBlog = () => {
       .catch((error) => {
         history.push("/dashboard");
       });
-  }, [id]);
+  }, [history, id]);
 
   const OnChangeValue = (e) => {
     const { value, name } = e.target;
@@ -131,26 +188,37 @@ const UpdateBlog = () => {
           <div id="emailHelp" className="form-text mb-3">
             Please use a valid link preferably https.
           </div>
-          <div className="row">
-            <div className="col-md-6">
-              <label for="exampleFormControlTextarea1" className="form-label">
-                Markdown
-              </label>
-              <textarea
-                required
-                className="form-control"
-                value={data.markdown}
-                name="markdown"
-                onChange={OnChangeValue}
-                id="exampleFormControlTextarea1"
-                rows="4"
-              ></textarea>
-            </div>
-            <div className="col-md-6">
-              <label for="exampleFormControlTextarea1" className="form-label">
-                Live Preview
-              </label>
-              <div className="shadow">
+          <div>
+            <AppBar position="static" color="default">
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Markdown" {...a11yProps(0)} />
+                <Tab label="Preview" {...a11yProps(1)} />
+              </Tabs>
+            </AppBar>
+            <SwipeableViews
+              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+              index={value}
+              onChangeIndex={handleChangeIndex}
+            >
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <textarea
+                  required
+                  className="form-control full-width"
+                  value={data.markdown}
+                  name="markdown"
+                  onChange={OnChangeValue}
+                  id="exampleFormControlTextarea1"
+                  rows="10"
+                ></textarea>
+              </TabPanel>
+              <TabPanel value={value} index={1} dir={theme.direction}>
                 <ReactMarkdown
                   components={components}
                   remarkPlugins={[gfm]}
@@ -163,8 +231,8 @@ const UpdateBlog = () => {
                     ),
                   }}
                 />
-              </div>
-            </div>
+              </TabPanel>
+            </SwipeableViews>
           </div>
           <center>
             <div className="p-3">

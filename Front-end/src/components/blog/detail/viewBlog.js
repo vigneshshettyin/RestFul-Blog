@@ -38,9 +38,9 @@ const ViewBlog = () => {
   const [blog, setBlog] = useState({});
   const [flag, setFlag] = useState(false);
 
-  const history = useHistory();
+  let histroy = useHistory();
 
-  const fetchBlog = async () => {
+  useEffect(() => {
     axios
       .get(`${SERVER_URL}/api/blog/${id}`)
       .then((response) => {
@@ -50,13 +50,9 @@ const ViewBlog = () => {
         }
       })
       .catch((error) => {
-        history.push("/");
+        histroy.push("/");
       });
-  };
-
-  useEffect(() => {
-    fetchBlog();
-  }, [id]);
+  }, [histroy, id]);
   return (
     <>
       {flag ? (
