@@ -11,7 +11,6 @@ border: 2px solid palevioletred;
 border-radius: 3px;
   }
 `;
-
 const Header = () => {
   return (
     <>

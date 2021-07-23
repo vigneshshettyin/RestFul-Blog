@@ -205,7 +205,6 @@ export default function SignUp() {
             </Grid>
           </Grid>
         </form>
-        {JSON.stringify(data)}
       </div>
       <Box mt={5}>
         <Copyright />

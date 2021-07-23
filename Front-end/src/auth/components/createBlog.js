@@ -223,7 +223,6 @@ const CreateBlog = () => {
             </div>
           </center>
         </form>
-        {JSON.stringify(data)}
       </div>
     </>
   );

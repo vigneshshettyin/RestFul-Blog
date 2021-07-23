@@ -170,7 +170,6 @@ export default function SignIn() {
             </Grid>
           </Grid>
         </form>
-        {JSON.stringify(data)}
       </div>
       <Box mt={8}>
         <Copyright />

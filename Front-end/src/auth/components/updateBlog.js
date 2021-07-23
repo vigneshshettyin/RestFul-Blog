@@ -242,7 +242,6 @@ const UpdateBlog = () => {
             </div>
           </center>
         </form>
-        {JSON.stringify(data)}
       </div>
     </>
   );
