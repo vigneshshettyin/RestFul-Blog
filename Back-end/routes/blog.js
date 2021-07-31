@@ -3,8 +3,8 @@ const Blog = require("../models/blog");
 const User = require("../models/user");
 const auth = require("../token/verifyToken");
 const { v4: uuidv4 } = require("uuid");
-const multer = require("multer");
-const upload = multer();
+const upload = require("../utils/multer");
+const cloudinary = require("../utils/cloudinary");
 
 router.post("/", auth, upload.none(), async (req, res) => {
   const { title, content, displayPicture, category, markdown } = req.body;
@@ -121,6 +121,11 @@ router.put("/update/:blogUUID", auth, upload.none(), async (req, res) => {
         "You are not authorized to update this blog or blog doesn't exist!",
     });
   }
+});
+
+router.post("/upload", upload.single("profile"), async (req, res) => {
+  const result = await cloudinary.uploader.upload(req.file.path);
+  res.json(result);
 });
 
 module.exports = router;
