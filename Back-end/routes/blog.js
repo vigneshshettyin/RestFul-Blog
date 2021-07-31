@@ -123,9 +123,24 @@ router.put("/update/:blogUUID", auth, upload.none(), async (req, res) => {
   }
 });
 
-router.post("/upload", upload.single("profile"), async (req, res) => {
-  const result = await cloudinary.uploader.upload(req.file.path);
-  res.json(result);
+var uploadImg = upload.single("profile");
+router.post("/upload", async (req, res) => {
+  uploadImg(req, res, async function (err) {
+    if (!req.file) {
+      return res.status(422).send({
+        error: "No image uploaded!",
+      });
+    } else {
+      if (err) {
+        return res.status(401).send({
+          error: "Image not on valid format!",
+        });
+      } else {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        res.json(result);
+      }
+    }
+  });
 });
 
 module.exports = router;
