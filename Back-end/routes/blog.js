@@ -36,8 +36,8 @@ router.get("/all", async (req, res) => {
   res.json(blogs);
 });
 
-router.get("/:blogUUID", async (req, res) => {
-  const blogUUID = req.params.blogUUID;
+router.get("/", async (req, res) => {
+  const blogUUID = req.query.blogUUID;
   const blog = await Blog.findOne({ uuid: blogUUID });
   if (blog) {
     res.json(blog);
