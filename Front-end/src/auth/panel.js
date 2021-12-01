@@ -48,7 +48,7 @@ const Panel = () => {
           icon: "success",
         });
         axios
-          .delete(`http://localhost:5000/api/blog/${uuid}`, {
+          .delete(`${SERVER_URL}/api/blog/${uuid}`, {
             headers: {
               Authorization: localStorage.getItem("token"),
             },
