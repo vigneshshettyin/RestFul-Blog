@@ -17,7 +17,9 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.status({
-    message: "Welcome to the API",
+    message: "Welcome to the Blog API",
+    author: "Vignesh Shetty",
+    linktree: "https://lt.vigneshcodes.in",
     CLIENT_URL: process.env.CLIENT_URL,
   });
 });
