@@ -42,7 +42,7 @@ const ViewBlog = () => {
 
   useEffect(() => {
     axios
-      .get(`${SERVER_URL}/api/blog/${id}`)
+      .get(`${SERVER_URL}/api/blog/?blogUUID=${id}`)
       .then((response) => {
         if (response.status === 200) {
           setBlog(response.data);
@@ -79,7 +79,12 @@ const ViewBlog = () => {
             </div>
           </div>
 
-          <div className="my-markdown-custom-font col-md-8 container-fluid">
+          <div
+            style={{
+              overflow: "scroll",
+            }}
+            className="my-markdown-custom-font col-md-8 container-fluid"
+          >
             <ReactMarkdown
               components={components}
               remarkPlugins={[gfm]}
