@@ -5,7 +5,7 @@ const app = express();
 const cors = require("cors");
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: process.env.CLIENT_URL,
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
@@ -16,7 +16,10 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Blog Rest API");
+  res.status({
+    message: "Welcome to the API",
+    CLIENT_URL: process.env.CLIENT_URL,
+  });
 });
 
 app.use("/api/user", require("./routes/user"));
