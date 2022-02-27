@@ -16,7 +16,8 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.status({
+  console.log("hello");
+  res.status(200).json({
     message: "Welcome to the Blog API",
     author: "Vignesh Shetty",
     linktree: "https://lt.vigneshcodes.in",
