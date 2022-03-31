@@ -1,3 +1,3 @@
-const SERVER_URL = "https://rest-api.vigneshcodes.in";
+const SERVER_URL = "https://RestFul-Blog.vigneshshettyin.repl.co";
 
 export { SERVER_URL };
